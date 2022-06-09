@@ -529,32 +529,45 @@ noFill();
   }
   endShape();
 
-  //mineras----------------------------
-  stroke(255);
+  //mineras----------------------------**/
+  stroke(0);
       strokeWeight(0.5);
 noFill();
   beginShape();
   for (var i = 0; i < miner.length; i++) {
-        let burbuja1 = miner[i];
-
-
-          let ram = int(random(0, node.length));
-
-          let forwall = node[ram];
+    for (var e = 0; e < logicLocation.length; e++){
+        if(typeof miner[i] !== 'undefined'){
+        //let burbuja1 = miner[i];
+          //let ram = int(random(0, logic.length));
+          let distant = dist(miner[i].x, miner[i].y, logicLocation[e][0], logicLocation[e][1]);
+          //let forwall = node[ram];
           //text(str(ram),300,600)
 
-          if( 0 < node.length ){
-          vertex(burbuja1.x,burbuja1.y);
-          vertex(forwall.x,forwall.y);
+          if( 0 < logic.length && distant < 100){
+            if(i == 1)
+        console.table("a ver " + distant);
+          vertex(miner[i].x, miner[i].y);
+          vertex(logicLocation[e][0], logicLocation[e][1]);
+          if(typeof logicLocation[e][3] == 'undefined'){
+          logicLocation[e][3] = new Array();
+          }
+          logicLocation[e][3][i] = true;
+          distant = 101;
 
-}
-
-        
+          }
+          else{
+          if(typeof logicLocation[e][3] == 'undefined'){
+          logicLocation[e][3] = new Array();
+          }
+          logicLocation[e][3][i] = false;
+          }
+    }
+   }     
   }
   endShape();
-
+  /**
   //carteras---------------------------
-  stroke(255);
+  stroke(0);
       strokeWeight(0.5);
 noFill();
   beginShape();
@@ -670,7 +683,7 @@ class Bubble {
         let x = 100 + random(width-50);
         bull = 0;
         let y = random( height/3, height/3*2);
-        let r = random(20, 40);
+        let r = random(12, 19);
         miner[esm] = new Bubble(x, y, r);
     mcount++;
       }

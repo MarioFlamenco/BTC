@@ -246,6 +246,7 @@ function Neuron(x, y, n, oros) {
   let yei = mouseY;
   let ene = n;
   let co = new Array();
+  let ratio = 0;
   NNN = n;
   oro = oros;
   this.position = createVector(x, y);
@@ -262,11 +263,20 @@ function Neuron(x, y, n, oros) {
   }
   
   this.feedforward = function(input) {
+    ratio = 0;
+    if(typeof logicLocation[this.N - 1][3] !== 'undefined'){
+      
+      for (var i = 0; i < logicLocation[this.N - 1][3].length; i++){
+        if(logicLocation[this.N - 1][3][i] == true)
+        ratio ++;
+      }
+}
     if(oros){
-
-    this.sum += input;
+    this.sum += (input * ratio) ;
     }
-    this.suma += input;
+
+    this.suma += (input * ratio);
+
     if (this.sum > 3) {
       key = str(keys[int(random(keys.length))]);
       this.fire();
@@ -400,7 +410,7 @@ function Neuron(x, y, n, oros) {
     strokeWeight(1);
     //var b = map(this.sum,0,1,255,0);
     //fill(b);
-    fill(255);
+    fill(0);
     ellipse(this.position.x, this.position.y, this.r, this.r);
     image(btc,this.position.x-this.r/2, this.position.y-this.r/2, this.r, this.r);
     text(str(locked), 250, 50);
@@ -413,7 +423,7 @@ function Neuron(x, y, n, oros) {
     //text(str(distant), this.position.x, this.position.y-50);
     text("Conexiones " + str(this.connections.length), this.position.x, this.position.y-80);
     text(str(inout), this.position.x, this.position.y-110);
-   // text(str(this.sum), this.position.x, this.position.y + 20);
+   text( ratio + "   " + str(this.sum) + "                     " + logicLocation[this.N - 1][3], this.position.x, this.position.y + 20);
     text("Neurons conections " + str(this.connections.length), 750, 30);
     //console.table(this.connections.length);
     ccc = false;
