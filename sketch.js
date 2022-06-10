@@ -28,6 +28,7 @@ let locked = false;
 let locked_n = false;
 let locked_m = false;
 let locked_w = false;
+let lockedL = false;
 
 let cual = 0;
 let contar = 0;
@@ -224,6 +225,16 @@ function mousePressed() {
           locked = true;
           este = false;
 
+
+          //mouse on nodes
+      for (var i = 0; i < logicLocation.length; i++) {
+      let dis = dist(mouseX, mouseY, logicLocation[i][0], logicLocation[i][1]);
+      if(dis <= 40){
+          lockedL = true;
+          }
+
+  }
+
   //mouse on bubble
     for (var i = 0; i < node.length; i++) {
       let dis = dist(mouseX, mouseY, node[i].x, node[i].y);
@@ -399,6 +410,34 @@ if((letscolor == true) && (colore == false)){
 //-----------------------
 
 
+
+//---------------------------------------
+//---------Mining proces-----------------
+//---------------------------------------
+if(logicLocation.length > 1){
+  let mining = random(21);
+  if(mining > 4.20 /**NICE**/ && mining < 4.25){
+    console.table("diez segundos?");
+    let keep = true;
+    for(; keep == true; ){
+    let winner = int(random(logicLocation.length - 1));
+    console.table("winner " + winner);
+      if(logicLocation[winner][4] == false){
+          logicLocation[winner][4] = true;
+          keep = false;
+    console.table("deste gano" + winner);
+        }
+    }    
+  }
+}
+//---------------------------------------
+//---------Mining proces-----------------
+//---------------------------------------
+
+
+
+
+
   //---------------------------------------------------------------
 //----------conection logic--------------------------------------
 //---------------------------------------------------------------
@@ -416,7 +455,7 @@ for (var i = 0; i < logic.length; i++) {
     
       if((dis <= 500) && (dis > 0.02) && (logicLocation[i][2][e] != true) && (kard != false)){
        // countar ++;
-            console.table("this " + kard);
+            //console.table("this " + kard);
         if (frameCount % 1 == 0){
       network.connect(logic[i], logic[e], random(0.75,1), i, e);
       logicLocation[i][2][e] = true;
@@ -478,8 +517,8 @@ for (var i = 0; i < logic.length; i++) {
   }
   if(bababa == true){
   background(btc1_2, 1);
-  console.log(color);
-  console.log(colore);
+  //console.log(color);
+ // console.log(colore);
   }
     //fill(b);
   strokeWeight(0);
@@ -543,11 +582,14 @@ noFill();
           //let forwall = node[ram];
           //text(str(ram),300,600)
 
-          if( 0 < logic.length && distant < 100){
+          if( 0 < logic.length && distant < 250){
+            if(i == 0)
+        console.table("a ver 0 " + distant);
             if(i == 1)
-        console.table("a ver " + distant);
-          vertex(miner[i].x, miner[i].y);
-          vertex(logicLocation[e][0], logicLocation[e][1]);
+        console.table("a ver 1 " + distant);
+         //vertex(miner[i].x, miner[i].y);
+          //vertex(logicLocation[e][0], logicLocation[e][1]);
+    line(miner[i].x, miner[i].y, logicLocation[e][0], logicLocation[e][1]);
           if(typeof logicLocation[e][3] == 'undefined'){
           logicLocation[e][3] = new Array();
           }
@@ -657,6 +699,7 @@ class Bubble {
         logicLocation[esn][0] = x;
         logicLocation[esn][1] = y;
         logicLocation[esn][2] = new Array();
+        logicLocation[esn][4] = false;
         connect[ncount] = new Array();
          for (let i = 0; i < (logic.length + 1); i++){
           logicLocation[esn][2][i] = null;
@@ -720,6 +763,7 @@ class Bubble {
         logicLocation[esw][0] = x;
         logicLocation[esw][1] = y;
         logicLocation[esw][2] = new Array();
+        logicLocation[esw][4] = true;
         connect[ncount] = new Array();
         for (let i = 0; i < (logic.length + 1); i++){
           logicLocation[esw][2][i] = null;

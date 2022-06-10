@@ -139,7 +139,7 @@ for (const key of iterator) {
   //console.log(key);
 }
     if(Array.isArray(connect[i][e]) == false){
-          console.table("esta");
+          //console.table("esta");
       connect[i][e] = new Array();
     }
 
@@ -207,7 +207,7 @@ for (const key of iterator) {
         if(typeof connect[i][e] !== 'undefined'){
           if((logicLocation[i][2][e] == false) && (connect[i][e][0] == true)){
           //console.table(str(connect[i][e][1]));
-          console.table(connect[i][e][0]);
+          //console.table(connect[i][e][0]);
           this.connections.splice(0);
             connect[i][e][0] = false;
 
@@ -229,6 +229,7 @@ for (const key of iterator) {
 }
 function preload() {
     btc = loadImage("img/btc.png");
+    mineros = loadImage("img/btc_mineros.png");
     for (let i = 0; i < 2; i++) {
     kitten[i] = loadImage("img/light" + i +".png ")
     }
@@ -247,6 +248,7 @@ function Neuron(x, y, n, oros) {
   let ene = n;
   let co = new Array();
   let ratio = 0;
+  let minercounter = 0;
   NNN = n;
   oro = oros;
   this.position = createVector(x, y);
@@ -263,7 +265,7 @@ function Neuron(x, y, n, oros) {
   }
   
   this.feedforward = function(input) {
-    ratio = 0;
+    ratio = 0;lockedL
     if(typeof logicLocation[this.N - 1][3] !== 'undefined'){
       
       for (var i = 0; i < logicLocation[this.N - 1][3].length; i++){
@@ -273,6 +275,17 @@ function Neuron(x, y, n, oros) {
 }
     if(oros){
     this.sum += (input * ratio) ;
+    }
+
+    if(oros == false && logicLocation[this.N - 1][4] == true){
+  //console.table("este gano");
+    this.sum = random(3);
+    key = str(keys[int(random(keys.length))]);
+      this.fire();
+    logicLocation[this.N - 1][4] = false;
+      this.sum = 0;
+      sends ++;
+      minercounter ++;
     }
 
     this.suma += (input * ratio);
@@ -315,7 +328,7 @@ function Neuron(x, y, n, oros) {
         
     thisConcount[this.N - 1] = this.connections.length;
         
-    if(locked || this.este){
+    if(lockedL || this.este){
       distant = dist(this.position.x, this.position.y, mouseX, mouseY);
       if((distant < this.r) || this.este){
         if((from < 0) && (to < 0)){
@@ -333,12 +346,12 @@ function Neuron(x, y, n, oros) {
         this.position.x = mouseX;
         this.position.y = mouseY;
         this.este = true;
-        locked = false;
+        lockedL = false;
         if(este){
           this.este = false;
         }
       else{
-        locked = false;
+        lockedL = false;
       }
       }
     }
@@ -355,7 +368,7 @@ function Neuron(x, y, n, oros) {
             }
 
     for (var i = 0; i < logic.length; i++){
-        console.table("a ver " + ar[i]);
+       //console.table("a ver " + ar[i]);
     }
       if (frameCount % 1 == 0){
 
@@ -370,7 +383,7 @@ function Neuron(x, y, n, oros) {
         if(typeof contarsk[i][e][1] !== 'undefined'){
           if((contarsk[i][e][1] == 1) && (logicLocation[i][2][e] == false)){
             contarsk[i][e][1] = 2;
-        console.table("a ver " + contarsk[i][e][1]);
+        //console.table("a ver " + contarsk[i][e][1]);
           }
         }
       }
@@ -412,9 +425,17 @@ function Neuron(x, y, n, oros) {
     //fill(b);
     fill(0);
     ellipse(this.position.x, this.position.y, this.r, this.r);
-    image(btc,this.position.x-this.r/2, this.position.y-this.r/2, this.r, this.r);
+    if(oros){
+    image(btc,this.position.x-this.r/2, this.position.y-this.r/2, this.r, this.r);      
+    }
+    else{
+    image(mineros,this.position.x-this.r/2, this.position.y-this.r/2, this.r, this.r);       
+    }
     text(str(locked), 250, 50);
     text(str(this.N), this.position.x, this.position.y);
+    if (oros == false){
+    text("Blokes ganados "+str(minercounter), this.position.x, this.position.y-20);
+    }
     //text("nodo "+str(inout), this.position.x, this.position.y-70);
     //text(str(buscar), this.position.x, this.position.y-20);
     //text("este "+str(this.este), this.position.x, this.position.y-40);
