@@ -23,6 +23,7 @@ let miner = [];
 let wallet = [];
 
 let este = false;
+let mina = null;
 
 let locked = false;
 let locked_n = false;
@@ -415,19 +416,26 @@ if((letscolor == true) && (colore == false)){
 //---------Mining proces-----------------
 //---------------------------------------
 if(logicLocation.length > 1){
-  let mining = random(21);
-  if(mining > 4.20 /**NICE**/ && mining < 4.25){
-    console.table("diez segundos?");
-    let keep = true;
-    for(; keep == true; ){
-    let winner = int(random(logicLocation.length - 1));
-    console.table("winner " + winner);
-      if(logicLocation[winner][4] == false){
-          logicLocation[winner][4] = true;
-          keep = false;
-    console.table("deste gano" + winner);
-        }
-    }    
+  for (let i = 0; i < logicLocation.length; i++) {
+    if(logicLocation[i][4] == false){
+      mina = true;
+    }
+  }
+  if(mina){
+    let mining = random(21);
+    if(mining > 4.20 /**NICE**/ && mining < 4.25){
+      console.table("diez segundos?");
+      let keep = true;
+      for(; keep == true; ){
+      let winner = int(random(logicLocation.length - 1));
+      console.table("winner " + winner);
+        if(logicLocation[winner][4] == false){
+            logicLocation[winner][4] = true;
+            keep = false;
+      console.table("deste gano" + winner);
+          }
+      }    
+    }
   }
 }
 //---------------------------------------
@@ -457,7 +465,7 @@ for (var i = 0; i < logic.length; i++) {
        // countar ++;
             //console.table("this " + kard);
         if (frameCount % 1 == 0){
-      network.connect(logic[i], logic[e], random(0.75,1), i, e);
+      network.connect(logic[i], logic[e], random(0.95,1), i, e);
       logicLocation[i][2][e] = true;
       another[i] = true;
 
@@ -489,12 +497,12 @@ for (var i = 0; i < logic.length; i++) {
   if(ncount>1){
     stroke(0);
     strokeWeight(1);
-    fill(255);
-    text("localidad " + logicLocation[0][0] + " " + logicLocation[0][1], 150, 150);
+    fill(0);
+    //text("localidad " + logicLocation[0][0] + " " + logicLocation[0][1], 150, 150);
   }
-  text("nodos: " + str(logic.length), 250, 10);
-  text("contador arreglo: " + str(con), 250, 30);
-  text(str(has), 210, 15);
+  text("Network´s Nodes: " + str(logic.length), 250, 10);
+  //text("contador arreglo: " + str(con), 250, 30);
+  //text(str(has), 210, 15);
   for(let i = 0; i < logic.length; i++){
    
   }
@@ -523,11 +531,11 @@ for (var i = 0; i < logic.length; i++) {
     //fill(b);
   strokeWeight(0);
   streams.forEach((s) => s.draw());
-text(str(click), 600, 50);
-text(str(clickes), 600, 70);
-text(str(contar), 600, 40);
-text("from "+str(from), 600, 20);
-text("to "+str(to), 600, 10);
+//text(str(click), 600, 50);
+//text(str(clickes), 600, 70);
+//text(str(contar), 600, 40);
+//text("from "+str(from), 600, 20);
+//text("to "+str(to), 600, 10);
  //-------------------------------------------------
  //---------Networking------------------------------
  //-------------------------------------------------
@@ -535,7 +543,7 @@ text("to "+str(to), 600, 10);
   network.update();
   network.display();
 
-if (frameCount % 30 == 0) {
+if (frameCount % 69 == 0) {
     //network.feedforward(sex.next().value,sex.next().value,sex.next().value,sex.next().value,sex.next().value,sex.next().value);
   network.feedforward(random(1),random(1));
   }
@@ -582,7 +590,7 @@ noFill();
           //let forwall = node[ram];
           //text(str(ram),300,600)
 
-          if( 0 < logic.length && distant < 250){
+          if( 0 < logic.length && distant < 250 && logicLocation[e][4] == true){
             if(i == 0)
         console.table("a ver 0 " + distant);
             if(i == 1)

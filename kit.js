@@ -37,6 +37,7 @@ let kthisy = 0.0;
 let thisConcount = [];
 let ar = [];
 let another = [];
+let networkcounter = 0;
 
 let con = false;
 
@@ -60,7 +61,7 @@ function Connection(from, to,w) {
   
   
   this.feedforward = function(val) {
-    this.output = val*this.weight;
+    this.output =   val * this.weight;
     this.sender = this.a.position.copy();
     this.sending = true;
   this.key = str(keys[int(random(keys.length))]);
@@ -68,10 +69,10 @@ function Connection(from, to,w) {
   
   this.update = function() {
     if (this.sending) {
-      this.sender.x = lerp(this.sender.x, this.b.position.x, 0.05);
-      this.sender.y = lerp(this.sender.y, this.b.position.y, 0.045);
+      this.sender.x = lerp(this.sender.x, this.b.position.x, 0.03);
+      this.sender.y = lerp(this.sender.y, this.b.position.y, 0.15);
       var d = p5.Vector.dist(this.sender, this.b.position);
-      if (d < 1) {
+      if (d < 15) {
         this.b.feedforwardR(this.output);
         this.sending = false;
       }
@@ -100,7 +101,7 @@ function Connection(from, to,w) {
     }
     
       //sending keys----------------------------------------
-      text(str(key), 200, 200);
+      //text(str(key), 200, 200);
       fill(255);
       strokeWeight(1);
       ellipse(this.sender.x, this.sender.y, 16, 16);
@@ -171,6 +172,7 @@ for (const key of iterator) {
   
   this.update = function() {
     text("Network conections " + str(this.connections.length), 600, 30);
+    text("Network´s Mined Blocks " + str(networkcounter), 600, 40);
     for (var i = 0; i < this.connections.length; i++) {
       this.connections[i].update();
     }
@@ -195,8 +197,8 @@ for (const key of iterator) {
     stroke(0);
    strokeWeight(2);
    fill(255);
-    text("sexsexsex"+JSON.stringify(str(this.neurons[i])), 150 + i * 150, 550);
-    text(str(NNN), 150 , 650);
+    //text("sexsexsex"+JSON.stringify(str(this.neurons[i])), 150 + i * 150, 550);
+    //text(str(NNN), 150 , 650);
     }
     for (var i = 0; i < this.connections.length; i++) {
       this.connections[i].display();
@@ -265,7 +267,7 @@ function Neuron(x, y, n, oros) {
   }
   
   this.feedforward = function(input) {
-    ratio = 0;lockedL
+    ratio = 0;
     if(typeof logicLocation[this.N - 1][3] !== 'undefined'){
       
       for (var i = 0; i < logicLocation[this.N - 1][3].length; i++){
@@ -286,9 +288,14 @@ function Neuron(x, y, n, oros) {
       this.sum = 0;
       sends ++;
       minercounter ++;
+      networkcounter ++;
     }
-
-    this.suma += (input * ratio);
+    if(ratio < 5){
+      this.suma += (input * ratio);
+    }
+    else{
+    this.suma += (input * 5);
+    }
 
     if (this.sum > 3) {
       key = str(keys[int(random(keys.length))]);
@@ -317,10 +324,10 @@ function Neuron(x, y, n, oros) {
 
 
   this.fire = function() {
-    this.r = this.r * 3;
+      this.r = 69;
     
     for (var i = 0; i < this.connections.length; i++) {
-       this.connections[i].feedforward(this.sum);
+       this.connections[i].feedforward(this.sum/this.connections.length);
     }
   }
   
@@ -333,7 +340,7 @@ function Neuron(x, y, n, oros) {
       if((distant < this.r) || this.este){
         if((from < 0) && (to < 0)){
           con = true;
-        text("con " + con, 400, 250);
+        //text("con " + con, 400, 250);
         }
         if((from < 0) && (final)){
         
@@ -344,11 +351,13 @@ function Neuron(x, y, n, oros) {
           to = this.N;
         }
         this.position.x = mouseX;
-        this.position.y = mouseY;
+        this.position.y = mouseY - 15;
         this.este = true;
         lockedL = false;
         if(este){
           this.este = false;
+        this.position.x = mouseX;
+        this.position.y = mouseY;
         }
       else{
         lockedL = false;
@@ -394,9 +403,9 @@ function Neuron(x, y, n, oros) {
     if((logic.length > 1) && (connect.length > 1) && (this.connections.length >= 1)){
       for (var i = 0; i < logic.length; i++){
         inout = dist(this.position.x, this.position.y, logicLocation[i][0], logicLocation[i][1]);
-        text("nodo "+str(inout), this.position.x, this.position.y-70);
+        //text("nodo "+str(inout), this.position.x, this.position.y-70);
         if((inout > 500) ){
-          text("entra ", this.position.x, this.position.y-90);
+          //text("entra ", this.position.x, this.position.y-90);
           //let xe = co.find(element => element == false);
           for (let e = 0; e < logicLocation.length; e++){
             
@@ -404,7 +413,7 @@ function Neuron(x, y, n, oros) {
         if(typeof contarsk[i][e] !== 'undefined')
         if(typeof contarsk[i][e][1] !== 'undefined')
             if((another[this.N - 1] == true) &&(co[i] == false) && (ar[this.N -1] == true) && (contarsk[i][e][1] == 2)){
-            text("entra ", this.position.x + 20, this.position.y-90);
+            //text("entra ", this.position.x + 20, this.position.y-90);
             contarsk[i][e][1] = 0;
               //this.connections.splice(0);
               if (frameCount % 1 == 0)
@@ -431,8 +440,8 @@ function Neuron(x, y, n, oros) {
     else{
     image(mineros,this.position.x-this.r/2, this.position.y-this.r/2, this.r, this.r);       
     }
-    text(str(locked), 250, 50);
-    text(str(this.N), this.position.x, this.position.y);
+    //text(str(locked), 250, 50);
+    //text(str(this.N), this.position.x, this.position.y);
     if (oros == false){
     text("Blokes ganados "+str(minercounter), this.position.x, this.position.y-20);
     }
@@ -442,13 +451,13 @@ function Neuron(x, y, n, oros) {
     //text("# send "+str(sends), this.position.x-35, this.position.y -35);
     //text(""+str(this.connections.a[0]), this.position.x-25, this.position.y -25);
     //text(str(distant), this.position.x, this.position.y-50);
-    text("Conexiones " + str(this.connections.length), this.position.x, this.position.y-80);
-    text(str(inout), this.position.x, this.position.y-110);
+    //text("Conexiones " + str(this.connections.length), this.position.x, this.position.y-80);
+    //text(str(inout), this.position.x, this.position.y-110);
    text( ratio + "   " + str(this.sum) + "                     " + logicLocation[this.N - 1][3], this.position.x, this.position.y + 20);
-    text("Neurons conections " + str(this.connections.length), 750, 30);
+    //text("Neurons conections " + str(this.connections.length), 750, 30);
     //console.table(this.connections.length);
     ccc = false;
-
+    /**
     for (var i = 0; i < logicLocation[this.N-1][2].length; i++){
       text(str(logicLocation[this.N-1][2][i]), this.position.x, this.position.y + 30+i*10);
     
@@ -459,8 +468,9 @@ function Neuron(x, y, n, oros) {
       text(str(connect[this.N - 1][i][1]), this.position.x + 70, this.position.y + 30+i*10);
       }
     }
+    **/
     //text("X" + logicLocation[0][2][0] , this.position.x, this.position.y + 30);
-    this.r = lerp(this.r,32,0.1);
+    this.r = lerp(this.r,32,0.06);
   }
 
 
