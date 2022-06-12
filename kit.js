@@ -171,8 +171,8 @@ for (const key of iterator) {
   }
   
   this.update = function() {
-    text("Network conections " + str(this.connections.length), 600, 30);
-    text("Network´s Mined Blocks " + str(networkcounter), 600, 40);
+    text("Network conections " + str(this.connections.length), 250, 30);
+    text("Network´s Mined Blocks " + str(networkcounter), 250, 40);
     for (var i = 0; i < this.connections.length; i++) {
       this.connections[i].update();
     }
@@ -280,11 +280,12 @@ function Neuron(x, y, n, oros) {
     }
 
     if(oros == false && logicLocation[this.N - 1][4] == true){
-  //console.table("este gano");
-    this.sum = random(3);
-    key = str(keys[int(random(keys.length))]);
+      //console.table("este gano");
+      this.sum = random(3);
+      key = str(keys[int(random(keys.length))]);
       this.fire();
-    logicLocation[this.N - 1][4] = false;
+      logicLocation[this.N - 1][4] = false;
+      mina = true;
       this.sum = 0;
       sends ++;
       minercounter ++;
@@ -351,7 +352,7 @@ function Neuron(x, y, n, oros) {
           to = this.N;
         }
         this.position.x = mouseX;
-        this.position.y = mouseY - 15;
+        this.position.y = mouseY;
         this.este = true;
         lockedL = false;
         if(este){
@@ -404,7 +405,7 @@ function Neuron(x, y, n, oros) {
       for (var i = 0; i < logic.length; i++){
         inout = dist(this.position.x, this.position.y, logicLocation[i][0], logicLocation[i][1]);
         //text("nodo "+str(inout), this.position.x, this.position.y-70);
-        if((inout > 500) ){
+        if((inout > 350) ){
           //text("entra ", this.position.x, this.position.y-90);
           //let xe = co.find(element => element == false);
           for (let e = 0; e < logicLocation.length; e++){
@@ -472,6 +473,4 @@ function Neuron(x, y, n, oros) {
     //text("X" + logicLocation[0][2][0] , this.position.x, this.position.y + 30);
     this.r = lerp(this.r,32,0.06);
   }
-
-
 }

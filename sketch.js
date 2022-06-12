@@ -18,6 +18,9 @@ let bubbles = [];
      let wcount = 0 ;
      let pcount = 0 ;
 
+      let keep = null;
+      let pM = 0;
+
 let node = [];
 let miner = [];
 let wallet = [];
@@ -171,6 +174,7 @@ function reset() {
 }
 function preload() {
     btc = loadImage("img/btc.png");
+    mineros = loadImage("img/btc_mineros.png");
     for (let i = 0; i < 2; i++) {
     kitten[i] = loadImage("img/light" + i +".png ")
     }
@@ -210,9 +214,9 @@ function setup() {
  //-------------------------------------------------
  //---------Networking------------------------------
  //-------------------------------------------------
-  bubbles[3] = new Bubble(35, 200, 32);
-  for (let i = 0; i < 3; i++) {
-    let x = 35;
+  bubbles[3] = new Bubble( 45, ((height*0.1) + height / 3 * 2), 32);
+  for (let i = 0; i < 2; i++) {
+    let x = 47;
     let y = (height*0.1) + height / 3 * i;
     let r = 30;
     bubbles[i] = new Bubble(x, y, r);
@@ -286,10 +290,13 @@ function mousePressed() {
       //lineas--------------------------------
 
       //new objetos
+      //boubble 0 is for miners
       bubbles[0].click1(mouseX, mouseY, ncount);
-      bubbles[1].click2(mouseX, mouseY, mcount);
-      bubbles[2].click3(mouseX, mouseY, wcount);
-      bubbles[3].click4(mouseX, mouseY, ncount);
+      //boubble 1 is for wallets
+      bubbles[1].click4(mouseX, mouseY, ncount);
+      //boubble 2 is for miners
+     // bubbles[2].click3(mouseX, mouseY, wcount);
+      bubbles[3].click2(mouseX, mouseY, mcount);
 
 
 
@@ -350,6 +357,31 @@ function mouseReleased(){
 }
 
 function draw() { 
+  stroke(0);
+    strokeWeight(2);
+    fill(0);
+  line( 93, 0, 93, innerHeight /**- ( innerHeight * 0.15)**/);
+  stroke(0);
+    strokeWeight(1);
+  colorMode(RGB);
+    fill(240, 138, 84);
+    rect( 3, 0, 87, innerHeight /**- ( innerHeight * 0.15)**/);
+    fill(27, 242, 19);
+    rect( 247, 3, 151, 50);
+  colorMode(HSB);
+  stroke(0);
+    strokeWeight(1);
+    fill(0);
+     let x = 47;
+    let y = (height*0.1) + height / 3 * i;
+    let r = 30;
+  textSize(15);
+  textFont("Helvetica");
+    text("Miner", 30, height * 0.1 - 45);
+    text("Node", 30, (height * 0.1 - 45) + height / 3 * 1);
+    text("Wallet", 30, (height * 0.1 - 45) + height / 3 * 2);
+  textSize(charSize);
+  textFont("monospace");
 //-----------------------
 //---for color-----------
 //-----------------------
@@ -415,29 +447,37 @@ if((letscolor == true) && (colore == false)){
 //---------------------------------------
 //---------Mining proces-----------------
 //---------------------------------------
-if(logicLocation.length > 1){
-  for (let i = 0; i < logicLocation.length; i++) {
+if(logicLocation.length >= 1 && pM == 0){
+
+for (let i = 0; i < logicLocation.length; i++) {
     if(logicLocation[i][4] == false){
       mina = true;
-    }
-  }
-  if(mina){
-    let mining = random(21);
-    if(mining > 4.20 /**NICE**/ && mining < 4.25){
-      console.table("diez segundos?");
-      let keep = true;
-      for(; keep == true; ){
-      let winner = int(random(logicLocation.length - 1));
-      console.table("winner " + winner);
-        if(logicLocation[winner][4] == false){
-            logicLocation[winner][4] = true;
-            keep = false;
-      console.table("deste gano" + winner);
-          }
-      }    
+  pM ++;
     }
   }
 }
+  
+  if(mina){
+    let mining = random(21);
+      console.table("tries " + mining);
+    if(mining > 4.20 /**NICE**/ && mining < 4.25){
+      mina = false;
+      keep = true;
+      console.table("diez segundos?");
+    }
+  }
+  for(; keep == true; ){
+      let winner = int(random(logicLocation.length));
+      console.table("winner " + winner);
+      console.table("winner " + logicLocation[winner][4]);
+        if(logicLocation[winner][4] == false){
+            keep = false;
+            logicLocation[winner][4] = true;
+            //mina = true;
+      console.table("deste gano" + winner);
+      console.table("keep " + keep);
+          }
+      }
 //---------------------------------------
 //---------Mining proces-----------------
 //---------------------------------------
@@ -461,7 +501,7 @@ for (var i = 0; i < logic.length; i++) {
         
       
     
-      if((dis <= 500) && (dis > 0.02) && (logicLocation[i][2][e] != true) && (kard != false)){
+      if((dis <= 350) && (dis > 0.02) && (logicLocation[i][2][e] != true) && (kard != false)){
        // countar ++;
             //console.table("this " + kard);
         if (frameCount % 1 == 0){
@@ -483,7 +523,7 @@ for (var i = 0; i < logic.length; i++) {
      }
       }
     }
-    if((dis > 500) && (has) && (kard != false)){
+    if((dis > 350) && (has) && (kard != false)){
       //network.connect(logic[i], logic[e], random(0.75,1), i ,e);
       logicLocation[i][2][e] = false;
       has = false;
@@ -590,7 +630,7 @@ noFill();
           //let forwall = node[ram];
           //text(str(ram),300,600)
 
-          if( 0 < logic.length && distant < 250 && logicLocation[e][4] == true){
+          if( 0 < logic.length && distant < 150 && logicLocation[e][4] == true){
             if(i == 0)
         console.table("a ver 0 " + distant);
             if(i == 1)
@@ -645,7 +685,10 @@ noFill();
   for (let i = 0; i < bubbles.length; i++) {
     
    // bubbles[i].move();
-    bubbles[i].show();
+    bubbles[0].showminer();
+    bubbles[3].showwallet(true);
+    bubbles[1].show();
+    //bubbles[2].show();
   }
 
   for (let i = 0; i < node.length; i++) {
@@ -653,7 +696,7 @@ noFill();
   }
   for (let i = 0; i < miner.length; i++) {
     
-    miner[i].showminer();
+    miner[i].showwallet();
   }
   for (let i = 0; i < wallet.length; i++) {
     
@@ -675,6 +718,13 @@ noFill();
 function windowResized() {
   resizeCanvas(innerWidth, innerHeight);
   background(0);
+  bubbles[3] = new Bubble( 45, ((height*0.1) + height / 3 * 2), 32);
+  for (let i = 0; i < 2; i++) {
+    let x = 47;
+    let y = (height*0.1) + height / 3 * i;
+    let r = 30;
+    bubbles[i] = new Bubble(x, y, r);
+  }
   reset();
 }
 
@@ -703,7 +753,7 @@ class Bubble {
         
         ar[esn] = true;
         another[esn] = true;
-        logicLocation[esn] = new Array(3); 
+        logicLocation[esn] = new Array(); 
         logicLocation[esn][0] = x;
         logicLocation[esn][1] = y;
         logicLocation[esn][2] = new Array();
@@ -725,7 +775,8 @@ class Bubble {
 
 
   ncount++;
-  }}}
+  }}
+}
   click2(ex, ey, esm) {
     let de = dist(ex, ey, this.x, this.y);
     if (de < this.r) {
@@ -767,7 +818,7 @@ class Bubble {
 
         ar[esw] = true;
         another[esw] = true;
-        logicLocation[esw] = new Array(3); 
+        logicLocation[esw] = new Array(); 
         logicLocation[esw][0] = x;
         logicLocation[esw][1] = y;
         logicLocation[esw][2] = new Array();
@@ -817,7 +868,7 @@ class Bubble {
 
   show() {
    stroke(255);
-    strokeWeight(4);
+    strokeWeight(2);
     fill(this.brightness, 125);
     ellipse(this.x, this.y, this.r * 2);
     image(btc, this.x-this.r, this.y-this.r, this.r*2, this.r*2);
@@ -838,16 +889,20 @@ class Bubble {
   }
   showminer() {
    stroke(255);
-    strokeWeight(0.5);
+    strokeWeight(2);
     fill(this.brightness, 3);
     ellipse(this.x, this.y, this.r * 2);
-    image(btc2, this.x-this.r, this.y-this.r, this.r*2, this.r*2);
+    image(mineros, this.x-this.r, this.y-this.r, this.r*2, this.r*2);
   }
-  showwallet() {
+  showwallet(t) {
    stroke(255);
-    strokeWeight(0.4);
-    fill(this.brightness, 0);
-    ellipse(this.x, this.y, this.r * 2);
+    strokeWeight(0);
+    fill(this.brightness, 56);
+    //ellipse(this.x, this.y, this.r * 2);
+    if(t){
+    fill(0.1);
+    rect( this.x - 35, this.y - 35, 69, 69, 6);
+    }
     image(btc3, this.x-this.r, this.y-this.r, this.r*2, this.r*2);
   }
 }
